@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kendall's Tasks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fff0f5;
+            --card-bg: #ffffff;
+            --primary: #ffb7c5;
+            --primary-light: #ffdeeb;
+            --accent: #ff69b4;
+            --accent-hover: #ff1493;
+            --danger: #ff6b6b;
+            --text-main: #555555;
+            --text-light: #999999;
+            --shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
+        }
+
+        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text-main);
+            overflow: hidden; 
+        }
+
+        .app-wrapper {
+            position: relative;
+            width: 450px;
+            height: 85vh;
+            max-height: 850px;
+        }
+
+        /* --- TABS (Right Side) --- */
+        .tabs-column {
+            position: absolute;
+            top: 90px;
+            right: -45px;
+            width: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 5; 
+        }
+
+        .tab {
+            width: 60px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 10px;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 1.5rem;
+            box-shadow: 2px 5px 10px rgba(0,0,0,0.05);
+            position: relative;
+            right: 15px; 
+            user-select: none;
+        }
+
+        .tab:hover { right: 20px; background: var(--accent); }
+
+        .tab.active {
+            background: var(--card-bg);
+            right: 5px; 
+            width: 65px;
+            color: var(--accent);
+            box-shadow: 5px 5px 15px rgba(255, 105, 180, 0.15);
+            z-index: 12; 
+        }
+
+        .add-tab-btn {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.5);
+            border: 2px dashed var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); cursor: pointer;
+            font-size: 1.2rem; margin-left: 10px; transition: 0.2s;
+        }
+        .add-tab-btn:hover { background: white; transform: rotate(90deg); }
+
+
+        /* --- MAIN CARD --- */
+        .main-card {
+            background: var(--card-bg);
+            width: 100%;
+            height: 100%;
+            border-radius: 35px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .rain-clipper {
+            position: absolute; inset: 0; border-radius: 35px;
+            overflow: hidden; pointer-events: none; z-index: 0;
+        }
+        #petal-container { width: 100%; height: 100%; position: absolute; top:0; left:0; }
+        .petal { position: absolute; top: -30px; font-size: 1.2rem; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(900px) rotate(360deg); opacity: 0; } }
+
+
+        /* --- HEADER ALIGNMENT --- */
+        .header-top {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 5px; position: relative; z-index: 20;
+        }
+        
+        h1 { color: var(--accent); margin: 0; font-size: 1.6rem; line-height: 1.2; }
+
+        .list-subtitle {
+            font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; 
+            letter-spacing: 1.5px; font-weight: 700; margin-bottom: 20px;
+            position: relative; z-index: 20; display: block; height: 20px;
+        }
+        
+        .note-spawn-btn {
+            background: var(--primary-light); border: none; color: var(--accent);
+            padding: 8px 15px; border-radius: 20px; font-weight: 700;
+            cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;
+            transition: 0.2s;
+        }
+        .note-spawn-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+
+
+        /* --- CHART & CONTENT --- */
+        .chart-wrapper { position: relative; width: 200px; height: 200px; margin: 0 auto 1.5rem auto; flex-shrink: 0; z-index: 20; }
+        .chart-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .circle-bg { fill: none; stroke: #ffe6eb; stroke-width: 40; }
+        .circle-progress { fill: none; stroke: var(--accent); stroke-width: 25; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
+        .percentage-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; }
+        .percentage-number { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
+
+        .input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-shrink: 0; z-index: 20; }
+        input[type="text"] { flex-grow: 1; padding: 12px 20px; border-radius: 50px; border: 2px solid var(--primary); outline: none; }
+        button.add-btn { background: var(--accent); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; }
+        
+        .list-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; z-index: 20; }
+        .list-container::-webkit-scrollbar { width: 4px; }
+        .list-container::-webkit-scrollbar-thumb { background-color: var(--primary); border-radius: 10px; }
+        
+        ul { list-style: none; padding: 0; margin: 0; }
+        li { background: #fffafa; margin-bottom: 10px; padding: 10px 15px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .custom-checkbox { width: 22px; height: 22px; border: 2px solid var(--primary); border-radius: 50%; cursor: pointer; transition: 0.2s; }
+        li.completed .custom-checkbox { background-color: var(--accent); border-color: var(--accent); }
+
+        /* --- EMPTY STATE --- */
+        .empty-state {
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            height: 100%; color: var(--text-light); text-align: center; z-index: 20;
+        }
+        .empty-state h3 { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
+        .empty-state p { font-size: 0.9rem; margin-bottom: 20px; }
+
+        .mascot-gif {
+            position: absolute; bottom: -20px; right: -60px; width: 130px;
+            z-index: 20; animation: float 3s ease-in-out infinite; pointer-events: none;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(2deg); } 50% { transform: translateY(-10px) rotate(-2deg); } }
+
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 183, 197, 0.6); backdrop-filter: blur(4px);
+            z-index: 200; display: none; justify-content: center; align-items: center;
+        }
+        .modal-box {
+            background: white; padding: 2rem; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 320px; text-align: center;
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .modal-title { color: var(--accent); margin-top: 0; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+        .emoji-option {
+            font-size: 1.8rem; cursor: pointer; border-radius: 10px; padding: 5px;
+            border: 2px solid transparent; transition: 0.2s;
+        }
+        .emoji-option:hover { background: var(--bg-color); }
+        .emoji-option.selected { border-color: var(--accent); background: var(--primary-light); }
+        
+        .modal-footer { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+
+        .modal-btn {
+            background: var(--accent); color: white; border: none;
+            padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; flex: 1;
+        }
+        .modal-btn-delete {
+            background: var(--danger); color: white; border: none;
+            padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; flex: 1;
+        }
+        .modal-close {
+            background: transparent; border: 2px solid #ddd; color: #888;
+            padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer;
+        }
+
+        /* --- STICKY NOTES --- */
+        .sticky-note { position: fixed; width: 160px; height: 160px; box-shadow: 5px 10px 25px rgba(0,0,0,0.15); z-index: 100; display: flex; flex-direction: column; border-radius: 2px 2px 15px 2px; }
+        .note-header { height: 20px; background: rgba(0,0,0,0.05); cursor: grab; display: flex; justify-content: flex-end; padding: 2px 5px; }
+        .note-content { flex-grow: 1; border: none; background: transparent; resize: none; padding: 8px; font-size: 0.9rem; outline: none; }
+    </style>
+</head>
+<body>
+
+    <div class="modal-overlay" id="tabModal">
+        <div class="modal-box">
+            <h2 class="modal-title" id="modalTitle">New List</h2>
+            <input type="text" id="modalInputName" placeholder="List Name (e.g. Shopping)" style="width: 100%; padding: 10px; border-radius: 10px; border: 2px solid var(--primary); outline: none;">
+            
+            <p style="color: var(--text-light); font-size: 0.9rem;">Pick an Icon:</p>
+            <div class="emoji-grid" id="emojiGrid">
+                <div class="emoji-option selected">🌸</div>
+                <div class="emoji-option">🌷</div>
+                <div class="emoji-option">🎀</div>
+                <div class="emoji-option">🩰</div>
+                <div class="emoji-option">🐷</div>
+                <div class="emoji-option">🍧</div>
+                <div class="emoji-option">🩷</div>
+                <div class="emoji-option">🦄</div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="modal-close" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn-delete" id="btnDelete" onclick="deleteActiveList()" style="display:none;">Delete</button>
+                <button class="modal-btn" id="btnSave" onclick="saveTab()">Create</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="app-wrapper">
+        
+        <div class="tabs-column" id="tabsColumn"></div>
+
+        <div class="main-card">
+            <div class="rain-clipper">
+                <div id="petal-container"></div>
+            </div>
+            
+            <div class="header-top">
+                <h1>Kendall's Tasks</h1>
+                <button class="note-spawn-btn" id="add-note-btn">📝 Note</button>
+            </div>
+            
+            <span class="list-subtitle" id="currentListName">Daily</span>
+
+            <div class="empty-state" id="emptyState">
+                <h3>No Lists Available</h3>
+                <p>Click the <b>+</b> button on the right<br>to start a new collection!</p>
+            </div>
+
+            <div id="activeContent">
+                <div class="chart-wrapper">
+                    <svg class="chart-svg" viewBox="0 0 250 250">
+                        <circle class="circle-bg" cx="125" cy="125" r="100"></circle>
+                        <circle class="circle-progress" cx="125" cy="125" r="100"></circle>
+                    </svg>
+                    <div class="percentage-label">
+                        <span class="percentage-number" id="percentDisplay">0%</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="taskInput" placeholder="New task..." autocomplete="off">
+                    <button class="add-btn" id="addTaskBtn">+</button>
+                </div>
+
+                <div class="list-container">
+                    <ul id="taskList"></ul>
+                </div>
+            </div>
+        </div>
+
+        <img src="kawaii.gif" alt="mascot" class="mascot-gif">
+    </div>
+
+<script>
+    // --- DATA ---
+    let tabs = [{ id: Date.now(), name: 'Daily', emoji: '🌸', tasks: [] }];
+    let activeTabId = tabs[0].id;
+    
+    // Modal State
+    let isEditMode = false;
+    let selectedEmoji = '🌸';
+    let editingTabId = null;
+
+    // --- DOM ELEMENTS ---
+    const tabsColumn = document.getElementById('tabsColumn');
+    const taskList = document.getElementById('taskList');
+    const percentDisplay = document.getElementById('percentDisplay');
+    const circle = document.querySelector('.circle-progress');
+    const taskInput = document.getElementById('taskInput');
+    const currentListName = document.getElementById('currentListName');
+    
+    const activeContent = document.getElementById('activeContent');
+    const emptyState = document.getElementById('emptyState');
+    
+    // Modal Elements
+    const modal = document.getElementById('tabModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalInputName = document.getElementById('modalInputName');
+    const btnSave = document.getElementById('btnSave');
+    const btnDelete = document.getElementById('btnDelete');
+
+    // Chart Setup
+    const radius = 100;
+    const circumference = radius * 2 * Math.PI;
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = circumference;
+
+    // --- RENDER LOGIC ---
+    function renderUI() {
+        tabsColumn.innerHTML = '';
+        
+        // Render Tabs
+        tabs.forEach(tab => {
+            const tabEl = document.createElement('div');
+            tabEl.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
+            tabEl.title = `Click again to edit ${tab.name}`; 
+            
+            // Interaction: Click once to select, Click again (if active) to edit
+            tabEl.onclick = () => { 
+                if (activeTabId === tab.id) {
+                    openModal(true, tab); // Edit Mode
+                } else {
+                    activeTabId = tab.id; 
+                    renderUI();
+                }
+            };
+            
+            tabEl.innerText = tab.emoji;
+            tabsColumn.appendChild(tabEl);
+        });
+
+        // Add Tab Button
+        const addBtn = document.createElement('div');
+        addBtn.className = 'add-tab-btn';
+        addBtn.innerText = '+';
+        addBtn.onclick = () => openModal(false); // Create Mode
+        tabsColumn.appendChild(addBtn);
+
+        // Content Rendering
+        if (tabs.length === 0) {
+            // Empty State
+            activeContent.style.display = 'none';
+            emptyState.style.display = 'flex';
+            currentListName.innerText = "";
+        } else {
+            // Active State
+            activeContent.style.display = 'block';
+            emptyState.style.display = 'none';
+            
+            const activeTab = tabs.find(t => t.id === activeTabId);
+            if (activeTab) {
+                currentListName.innerText = activeTab.name; 
+                taskList.innerHTML = '';
+
+                activeTab.tasks.forEach((t, i) => {
+                    const li = document.createElement('li');
+                    if (t.completed) li.classList.add('completed');
+                    li.innerHTML = `
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div class="custom-checkbox" onclick="toggleTask(${i})"></div>
+                            <span onclick="toggleTask(${i})" style="cursor:pointer">${t.text}</span>
+                        </div>
+                        <button style="background:none;border:none;color:#ffb7c5;cursor:pointer;" onclick="deleteTask(${i})">&times;</button>
+                    `;
+                    taskList.appendChild(li);
+                });
+                updateChart(activeTab.tasks);
+            }
+        }
+    }
+
+    function updateChart(tasks) {
+        const total = tasks.length;
+        const comp = tasks.filter(t => t.completed).length;
+        const p = total === 0 ? 0 : Math.round((comp/total)*100);
+        percentDisplay.innerText = `${p}%`;
+        circle.style.strokeDashoffset = circumference - (p/100) * circumference;
+    }
+
+    // --- TASK ACTIONS ---
+    function toggleTask(i) {
+        const at = tabs.find(t => t.id === activeTabId);
+        at.tasks[i].completed = !at.tasks[i].completed;
+        if(at.tasks[i].completed) triggerRain();
+        renderUI();
+    }
+
+    function deleteTask(i) { 
+        tabs.find(t => t.id === activeTabId).tasks.splice(i, 1); 
+        renderUI(); 
+    }
+
+    document.getElementById('addTaskBtn').onclick = () => {
+        if(taskInput.value.trim()){
+            tabs.find(t => t.id === activeTabId).tasks.push({text: taskInput.value.trim(), completed: false});
+            taskInput.value = '';
+            renderUI();
+        }
+    };
+    taskInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') document.getElementById('addTaskBtn').click(); });
+
+    function triggerRain() {
+        const c = document.getElementById('petal-container');
+        for(let i=0; i<15; i++){
+            const p = document.createElement('div');
+            p.className = 'petal'; p.innerText = '🌸';
+            p.style.left = Math.random()*100+'%';
+            p.style.animationDuration = (Math.random()*2+2)+'s';
+            c.appendChild(p);
+            setTimeout(() => p.remove(), 4000);
+        }
+    }
+
+    // --- MODAL LOGIC (Create & Edit) ---
+    function openModal(editMode, tabData = null) {
+        isEditMode = editMode;
+        modal.style.display = 'flex';
+        
+        if (editMode && tabData) {
+            // Edit Mode Setup
+            editingTabId = tabData.id;
+            modalTitle.innerText = "Edit List";
+            modalInputName.value = tabData.name;
+            selectedEmoji = tabData.emoji;
+            btnSave.innerText = "Save Changes";
+            btnDelete.style.display = 'block'; // Show Delete
+        } else {
+            // Create Mode Setup
+            editingTabId = null;
+            modalTitle.innerText = "New List";
+            modalInputName.value = "";
+            selectedEmoji = '🌸';
+            btnSave.innerText = "Create List";
+            btnDelete.style.display = 'none'; // Hide Delete
+        }
+        updateEmojiSelection();
+    }
+    
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // Emoji Selection
+    const emojiOptions = document.querySelectorAll('.emoji-option');
+    emojiOptions.forEach(opt => {
+        opt.onclick = () => {
+            selectedEmoji = opt.innerText;
+            updateEmojiSelection();
+        };
+    });
+
+    function updateEmojiSelection() {
+        emojiOptions.forEach(opt => {
+            if (opt.innerText === selectedEmoji) opt.classList.add('selected');
+            else opt.classList.remove('selected');
+        });
+    }
+
+    // Save (Create or Update)
+    function saveTab() {
+        const name = modalInputName.value.trim();
+        if (!name) return alert("Please enter a name!");
+
+        if (isEditMode) {
+            // Update existing
+            const tab = tabs.find(t => t.id === editingTabId);
+            if (tab) {
+                tab.name = name;
+                tab.emoji = selectedEmoji;
+            }
+        } else {
+            // Create new
+            const newTab = { id: Date.now(), name: name, emoji: selectedEmoji, tasks: [] };
+            tabs.push(newTab);
+            activeTabId = newTab.id; // Switch to new tab
+        }
+        renderUI();
+        closeModal();
+    }
+
+    // Delete List
+    function deleteActiveList() {
+        if(confirm("Are you sure you want to delete this list?")) {
+            const index = tabs.findIndex(t => t.id === editingTabId);
+            tabs.splice(index, 1);
+            
+            // Set new active ID
+            if (tabs.length > 0) {
+                activeTabId = tabs[0].id;
+            } else {
+                activeTabId = null;
+            }
+            
+            renderUI();
+            closeModal();
+        }
+    }
+
+    // --- STICKY NOTES ---
+    document.getElementById('add-note-btn').onclick = () => {
+        const n = document.createElement('div');
+        n.className = 'sticky-note';
+        n.style.backgroundColor = ['#fff7d1', '#ffe4e1', '#e0ffff'][Math.floor(Math.random()*3)];
+        
+        const centerX = window.innerWidth / 2 - 80; 
+        const centerY = window.innerHeight / 2 - 80;
+        n.style.left = `${centerX}px`; 
+        n.style.top = `${centerY}px`;
+
+        n.innerHTML = `<div class="note-header"><span style="cursor:pointer" onclick="this.parentElement.parentElement.remove()">&times;</span></div>
+                       <textarea class="note-content" placeholder="Write something..."></textarea>`;
+        document.body.appendChild(n);
+        
+        let drag = false, ox, oy;
+        n.querySelector('.note-header').onmousedown = (e) => { drag = true; ox = e.clientX - n.offsetLeft; oy = e.clientY - n.offsetTop; n.style.zIndex = 1000; };
+        document.onmousemove = (e) => { if(drag) { n.style.left = (e.clientX-ox)+'px'; n.style.top = (e.clientY-oy)+'px'; } };
+        document.onmouseup = () => drag = false;
+    };
+
+    renderUI();
+
+</script>
+</body>
+</html>
