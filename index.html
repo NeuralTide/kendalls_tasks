@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,10 @@
             --shadow: 0 10px 30px rgba(255, 105, 180, 0.2);
         }
 
-        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+        * {
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
 
         body {
             background-color: var(--bg-color);
@@ -29,17 +33,216 @@
             min-height: 100vh;
             margin: 0;
             color: var(--text-main);
-            overflow: hidden; 
+            overflow: hidden;
         }
+
+
+
+        /* --- TABS (Right Side) --- */
 
         .app-wrapper {
             position: relative;
             width: 450px;
+            /* Restored Width */
             height: 85vh;
+            /* Restored Height */
             max-height: 850px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            z-index: 10;
         }
 
-        /* --- TABS (Right Side) --- */
+        /* --- LEFT SIDEBAR TOOLS --- */
+        .left-sidebar {
+            position: absolute;
+            top: 90px;
+            left: -60px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 15;
+        }
+
+        .tool-btn {
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        /* --- TIMER TRAY --- */
+        .timer-tray {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            /* Slight offset from edge */
+            transform: translateY(-50%) translateX(-400px);
+            /* Hidden off-screen */
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 10px 20px 50px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .timer-tray.open {
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .timer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 800;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .close-tray {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: 0.2s;
+        }
+
+        .close-tray:hover {
+            color: var(--text-main);
+        }
+
+        .timer-modes {
+            display: flex;
+            gap: 5px;
+            background: #f0f0f0;
+            padding: 5px;
+            border-radius: 15px;
+            margin-bottom: 5px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #888;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .mode-btn.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .timer-display {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -2px;
+            margin: 10px 0;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .timer-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 15px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .timer-btn.start {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.2);
+        }
+
+        .timer-btn.start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .timer-btn.pause {
+            background: #ffd700;
+            color: white;
+        }
+
+        .timer-btn.reset {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .timer-btn.reset:hover {
+            background: #e0e0e0;
+        }
+
+        .timer-input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .timer-input-group input {
+            width: 70px;
+            padding: 10px;
+            border-radius: 15px;
+            border: 2px solid #eee;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .timer-input-group input:focus {
+            border-color: var(--accent);
+        }
+
         .tabs-column {
             position: absolute;
             top: 90px;
@@ -48,7 +251,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            z-index: 5; 
+            z-index: 5;
         }
 
         .tab {
@@ -63,33 +266,46 @@
             cursor: pointer;
             transition: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             font-size: 1.5rem;
-            box-shadow: 2px 5px 10px rgba(0,0,0,0.05);
+            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.05);
             position: relative;
-            right: 15px; 
+            right: 15px;
             user-select: none;
         }
 
-        .tab:hover { right: 20px; background: var(--accent); }
+        .tab:hover {
+            right: 20px;
+            background: var(--accent);
+        }
 
         .tab.active {
             background: var(--card-bg);
-            right: 5px; 
+            right: 5px;
             width: 65px;
             color: var(--accent);
             box-shadow: 5px 5px 15px rgba(255, 105, 180, 0.15);
-            z-index: 12; 
+            z-index: 12;
         }
 
         .add-tab-btn {
-            width: 40px; height: 40px;
-            background: rgba(255,255,255,0.5);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.5);
             border: 2px dashed var(--accent);
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--accent); cursor: pointer;
-            font-size: 1.2rem; margin-left: 10px; transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin-left: 10px;
+            transition: 0.2s;
         }
-        .add-tab-btn:hover { background: white; transform: rotate(90deg); }
+
+        .add-tab-btn:hover {
+            background: white;
+            transform: rotate(90deg);
+        }
 
 
         /* --- MAIN CARD --- */
@@ -108,35 +324,87 @@
         }
 
         .rain-clipper {
-            position: absolute; inset: 0; border-radius: 35px;
-            overflow: hidden; pointer-events: none; z-index: 0;
+            position: absolute;
+            inset: 0;
+            border-radius: 35px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
         }
-        #petal-container { width: 100%; height: 100%; position: absolute; top:0; left:0; }
-        .petal { position: absolute; top: -30px; font-size: 1.2rem; animation: fall linear forwards; }
-        @keyframes fall { to { transform: translateY(900px) rotate(360deg); opacity: 0; } }
+
+        #petal-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .petal {
+            position: absolute;
+            top: -30px;
+            font-size: 1.2rem;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(900px) rotate(360deg);
+                opacity: 0;
+            }
+        }
 
 
         /* --- HEADER ALIGNMENT --- */
         .header-top {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 5px; position: relative; z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 20;
         }
-        
-        h1 { color: var(--accent); margin: 0; font-size: 1.6rem; line-height: 1.2; }
+
+        h1 {
+            color: var(--accent);
+            margin: 0;
+            font-size: 1.6rem;
+            line-height: 1.2;
+        }
 
         .list-subtitle {
-            font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; 
-            letter-spacing: 1.5px; font-weight: 700; margin-bottom: 20px;
-            position: relative; z-index: 20; display: block; height: 20px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 20;
+            display: block;
+            height: 20px;
         }
-        
+
         .note-spawn-btn {
-            background: var(--primary-light); border: none; color: var(--accent);
-            padding: 8px 15px; border-radius: 20px; font-weight: 700;
-            cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;
+            background: var(--primary-light);
+            border: none;
+            color: var(--accent);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             transition: 0.2s;
         }
-        .note-spawn-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); }
+
+        .note-spawn-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
 
 
         /* --- CHART & CONTENT --- */
@@ -145,118 +413,725 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            overflow: hidden; /* Prevents double scrollbars */
+            overflow: hidden;
+            /* Prevents double scrollbars */
         }
 
-        .chart-wrapper { position: relative; width: 200px; height: 200px; margin: 0 auto 1.5rem auto; flex-shrink: 0; z-index: 20; }
-        .chart-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-        
-        /* Updated Thickness to match */
-        .circle-bg { fill: none; stroke: #ffe6eb; stroke-width: 28; }
-        .circle-progress { fill: none; stroke: var(--accent); stroke-width: 28; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
-        
-        .percentage-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; }
-        .percentage-number { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
-
-        .input-group { display: flex; gap: 10px; margin-bottom: 15px; flex-shrink: 0; z-index: 20; }
-        input[type="text"] { flex-grow: 1; padding: 12px 20px; border-radius: 50px; border: 2px solid var(--primary); outline: none; }
-        button.add-btn { background: var(--accent); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; }
-        
-        /* --- SCROLLABLE LIST --- */
-        .list-container { 
-            flex-grow: 1; 
-            overflow-y: auto; /* Enable vertical scroll */
-            padding-right: 5px; 
+        .chart-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem auto;
+            flex-shrink: 0;
             z-index: 20;
-            min-height: 0; /* Important: Allows flex child to scroll */
+        }
+
+        .chart-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Updated Thickness to match */
+        .circle-bg {
+            fill: none;
+            stroke: #ffe6eb;
+            stroke-width: 28;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 28;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s ease;
+        }
+
+        .percentage-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .percentage-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+            z-index: 20;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--primary);
+            outline: none;
+        }
+
+        button.add-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- SCROLLABLE LIST --- */
+        .list-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            /* Enable vertical scroll */
+            padding-right: 5px;
+            z-index: 20;
+            min-height: 0;
+            /* Important: Allows flex child to scroll */
         }
 
         /* Pink Scrollbar Styling */
         .list-container::-webkit-scrollbar {
             width: 8px;
         }
+
         .list-container::-webkit-scrollbar-track {
-            background: transparent; 
+            background: transparent;
         }
+
         .list-container::-webkit-scrollbar-thumb {
             background-color: var(--primary);
             border-radius: 10px;
-            border: 2px solid var(--card-bg); /* create padding effect */
+            border: 2px solid var(--card-bg);
+            /* create padding effect */
         }
+
         .list-container::-webkit-scrollbar-thumb:hover {
             background-color: var(--accent);
         }
-        
-        ul { list-style: none; padding: 0; margin: 0; }
-        li { background: #fffafa; margin-bottom: 10px; padding: 10px 15px; border-radius: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .custom-checkbox { width: 22px; height: 22px; border: 2px solid var(--primary); border-radius: 50%; cursor: pointer; transition: 0.2s; }
-        li.completed .custom-checkbox { background-color: var(--accent); border-color: var(--accent); }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #fffafa;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        li.completed .custom-checkbox {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
 
         /* --- EMPTY STATE --- */
         .empty-state {
-            display: none; flex-direction: column; justify-content: center; align-items: center;
-            height: 100%; color: var(--text-light); text-align: center; z-index: 20;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-light);
+            text-align: center;
+            z-index: 20;
         }
-        .empty-state h3 { color: var(--accent); font-size: 1.5rem; margin-bottom: 10px; }
-        .empty-state p { font-size: 0.9rem; margin-bottom: 20px; }
+
+        .empty-state h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
 
         .mascot-gif {
-            position: absolute; bottom: -20px; right: -60px; width: 130px;
-            z-index: 20; animation: float 3s ease-in-out infinite; pointer-events: none;
+            position: absolute;
+            bottom: -20px;
+            right: -60px;
+            width: 130px;
+            z-index: 20;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
         }
-        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(2deg); } 50% { transform: translateY(-10px) rotate(-2deg); } }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(2deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(-2deg);
+            }
+        }
 
 
         /* --- MODAL STYLES --- */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 183, 197, 0.6); backdrop-filter: blur(4px);
-            z-index: 200; display: none; justify-content: center; align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 183, 197, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: center;
         }
+
         .modal-box {
-            background: white; padding: 2rem; border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 320px; text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
             animation: popIn 0.3s ease;
         }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .modal-title { color: var(--accent); margin-top: 0; }
-        .emoji-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
-        .emoji-option {
-            font-size: 1.8rem; cursor: pointer; border-radius: 10px; padding: 5px;
-            border: 2px solid transparent; transition: 0.2s;
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
-        .emoji-option:hover { background: var(--bg-color); }
-        .emoji-option.selected { border-color: var(--accent); background: var(--primary-light); }
-        
-        .modal-footer { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+
+        .modal-title {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .emoji-option {
+            font-size: 1.8rem;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 5px;
+            border: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .emoji-option:hover {
+            background: var(--bg-color);
+        }
+
+        .emoji-option.selected {
+            border-color: var(--accent);
+            background: var(--primary-light);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
 
         .modal-btn {
-            background: var(--accent); color: white; border: none;
-            padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; flex: 1;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
         }
+
         .modal-btn-delete {
-            background: var(--danger); color: white; border: none;
-            padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; flex: 1;
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
         }
+
         .modal-close {
-            background: transparent; border: 2px solid #ddd; color: #888;
-            padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer;
+            background: transparent;
+            border: 2px solid #ddd;
+            color: #888;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         /* --- STICKY NOTES --- */
-        .sticky-note { position: fixed; width: 160px; height: 160px; box-shadow: 5px 10px 25px rgba(0,0,0,0.15); z-index: 100; display: flex; flex-direction: column; border-radius: 2px 2px 15px 2px; }
-        .note-header { height: 20px; background: rgba(0,0,0,0.05); cursor: grab; display: flex; justify-content: flex-end; padding: 2px 5px; }
-        .note-content { flex-grow: 1; border: none; background: transparent; resize: none; padding: 8px; font-size: 0.9rem; outline: none; }
+        .sticky-note {
+            position: fixed;
+            width: 160px;
+            height: 160px;
+            box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            border-radius: 2px 2px 15px 2px;
+        }
+
+        .note-header {
+            height: 20px;
+            background: rgba(0, 0, 0, 0.05);
+            cursor: grab;
+            display: flex;
+            justify-content: flex-end;
+            padding: 2px 5px;
+        }
+
+        .note-content {
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            resize: none;
+            padding: 8px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        /* --- FEEDING MODAL --- */
+        .feeding-modal-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 35px;
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+            width: 400px;
+            text-align: center;
+            animation: popIn 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .friendship-container {
+            margin: 20px 0;
+        }
+
+        .friendship-bar-bg {
+            width: 100%;
+            height: 20px;
+            background: #ffe6eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .friendship-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffb7c5, #ff69b4);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .friendship-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .mascot-large {
+            width: 120px;
+            margin: 0 auto;
+            display: block;
+            transition: 0.2s;
+            pointer-events: auto;
+            /* Allow drops */
+        }
+
+        .mascot-large.eating {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .snack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            background: #fffafa;
+            padding: 15px;
+            border-radius: 20px;
+            margin-top: 20px;
+            min-height: 80px;
+        }
+
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .shop-item {
+            background: #f9f9f9;
+            border: 2px solid #eee;
+            border-radius: 15px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .shop-price {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+
+        .snack-item {
+            font-size: 1.8rem;
+            cursor: grab;
+            user-select: none;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .decor-obj {
+            position: absolute;
+            font-size: 2.5rem;
+            cursor: grab;
+            user-select: none;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            transition: transform 0.1s;
+        }
+
+        .decor-obj:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+
+        /* --- FEEDING MODAL OVERHAUL --- */
+        .feeding-modal-box {
+            background: #fff;
+            width: 90%;
+            max-width: 900px;
+            height: 80vh;
+            max-height: 700px;
+            border-radius: 30px;
+            display: flex;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: popIn 0.3s ease-out;
+            padding: 0;
+            flex-direction: row;
+            border: none;
+        }
+
+        .modal-left {
+            flex: 6;
+            background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+            position: relative;
+            border-right: 2px solid #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .modal-right {
+            flex: 4;
+            background: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 50;
+            /* Ensure UI is above everything */
+        }
+
+        .room-container {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+        }
+
+        .mascot-large {
+            width: 150px;
+            pointer-events: none;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Inventory Scroll Area */
+        .scrolling-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            /* Custom Scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: #ddd transparent;
+        }
+
+        .scrolling-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrolling-content::-webkit-scrollbar-thumb {
+            background-color: #ddd;
+            border-radius: 10px;
+        }
+
+        /* Specific Header overrides */
+        .coin-display {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffd700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background: #fffbea;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            align-self: flex-start;
+            border: 1px solid #f0e68c;
+        }
+
+        .friendship-container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 10px;
+            backdrop-filter: blur(5px);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .snack-item:hover {
+            transform: scale(1.2);
+        }
+
+        .snack-item:active {
+            cursor: grabbing;
+        }
+
+        .snack-count {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .speech-bubble {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 10px;
+            border-radius: 15px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: 120px;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            top: 20px;
+        }
+
+        .mascot-gif {
+            cursor: pointer;
+            transition: transform 0.2s;
+            pointer-events: auto;
+        }
+
+        .mascot-gif:hover {
+            transform: scale(1.05) rotate(-5deg);
+        }
+
+        .snack-cue {
+            position: absolute;
+            bottom: 90px;
+            right: 0px;
+            font-size: 2.5rem;
+            animation: bounce 1s infinite;
+            z-index: 25;
+            pointer-events: none;
+            display: none;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* --- SHOP TOGGLE --- */
+        .shop-toggle {
+            display: flex;
+            background: #f0f0f0;
+            border-radius: 15px;
+            padding: 4px;
+            margin: 15px 0;
+            gap: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 8px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .toggle-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .toggle-btn.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- NOTIFICATION TRAY --- */
+        .notification-tray {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: bold;
+            color: var(--text-main);
+            transition: top 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid var(--primary-light);
+            border-top: none;
+        }
+
+        .notification-tray.show {
+            top: 0;
+        }
+
+        .notif-icon {
+            font-size: 2rem;
+        }
+
+        .notif-text {
+            font-size: 1rem;
+        }
     </style>
 </head>
+
 <body>
+
+    <!-- NOTIFICATION TRAY -->
+    <div class="notification-tray" id="notificationTray">
+        <div class="notif-icon" id="notifIcon">🍩</div>
+        <div class="notif-text" id="notifText">You got a Donut!</div>
+    </div>
 
     <div class="modal-overlay" id="tabModal">
         <div class="modal-box">
             <h2 class="modal-title" id="modalTitle">New List</h2>
-            <input type="text" id="modalInputName" placeholder="List Name (e.g. Shopping)" style="width: 100%; padding: 10px; border-radius: 10px; border: 2px solid var(--primary); outline: none;">
-            
+            <input type="text" id="modalInputName" placeholder="List Name (e.g. Shopping)"
+                style="width: 100%; padding: 10px; border-radius: 10px; border: 2px solid var(--primary); outline: none;">
+
             <p style="color: var(--text-light); font-size: 0.9rem;">Pick an Icon:</p>
             <div class="emoji-grid" id="emojiGrid">
                 <div class="emoji-option selected">🌸</div>
@@ -271,27 +1146,121 @@
 
             <div class="modal-footer">
                 <button class="modal-close" onclick="closeModal()">Cancel</button>
-                <button class="modal-btn-delete" id="btnDelete" onclick="deleteActiveList()" style="display:none;">Delete</button>
+                <button class="modal-btn-delete" id="btnDelete" onclick="deleteActiveList()"
+                    style="display:none;">Delete</button>
                 <button class="modal-btn" id="btnSave" onclick="saveTab()">Create</button>
             </div>
         </div>
     </div>
 
+    <!-- FEEDING MODAL (Two-Column Layout) -->
+    <div class="modal-overlay" id="feedingModal">
+        <div class="feeding-modal-box">
 
+            <!-- CLOSE BUTTON -->
+            <button class="modal-close" onclick="closeFeedingModal()"
+                style="position:absolute; top:20px; right:20px; z-index:100; background:#f5f5f5; width:35px; height:35px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#666;">&times;</button>
+
+            <!-- LEFT COLUMN: ROOM & MASCOT -->
+            <div class="modal-left">
+                <div class="room-container" id="roomArea">
+                    <div id="decorLayer" style="position:absolute; inset:0;"></div>
+                    <div
+                        style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display:flex; justify-content:center;">
+                        <img src="kawaii.gif" alt="mascot-large" class="mascot-large" id="mascotTarget">
+                    </div>
+                    <!-- Speech Bubble Positioned relative to room -->
+                    <div class="speech-bubble" id="mascotSpeech" style="left:50%; top:40%; transform:translateX(-50%);">
+                        Yummy!</div>
+                </div>
+
+                <div class="friendship-container">
+                    <span class="friendship-label">Friendship Level <span id="friendshipVal">0</span></span>
+                    <div class="friendship-bar-bg">
+                        <div class="friendship-bar-fill" id="friendshipFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: INVENTORY & SHOP -->
+            <div class="modal-right">
+                <div class="coin-display">💰 <span id="coinVal">0</span></div>
+
+                <!-- Tabs -->
+                <div class="shop-toggle">
+                    <button class="toggle-btn active" id="btnTabSnacks"
+                        onclick="switchModalTab('snacks')">Snacks</button>
+                    <button class="toggle-btn" id="btnTabShop" onclick="switchModalTab('shop')">Decor Shop</button>
+                </div>
+
+                <!-- Scrollable Content -->
+                <div class="scrolling-content" id="inventoryScrollArea">
+                    <div id="viewSnacks">
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin-top:0px; margin-bottom:15px;">Drag
+                            snacks to the room to feed!</p>
+                        <div class="snack-grid" id="snackInventory"></div>
+                    </div>
+
+                    <div id="viewShop" style="display:none;">
+                        <div class="shop-grid" id="shopGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- TIMER TRAY -->
+    <div class="timer-tray" id="timerTray">
+        <div class="timer-header">
+            <span>Study Timer ⏱️</span>
+            <button class="close-tray" onclick="toggleTimerTray()">&times;</button>
+        </div>
+
+        <div class="timer-modes">
+            <button class="mode-btn active" id="btnModeStopwatch"
+                onclick="switchTimerMode('stopwatch')">Stopwatch</button>
+            <button class="mode-btn" id="btnModeCountdown" onclick="switchTimerMode('countdown')">Countdown</button>
+        </div>
+
+        <div class="timer-display" id="timerDisplay">00:00</div>
+
+        <!-- Countdown Input -->
+        <div class="timer-input-group" id="timerInputGroup" style="display:none;">
+            <input type="number" id="inputMin" placeholder="Min" min="0" value="25">
+            <span>:</span>
+            <input type="number" id="inputSec" placeholder="Sec" min="0" max="59" value="00">
+        </div>
+
+        <div class="timer-controls">
+            <button class="timer-btn start" id="btnTimerStart" onclick="startTimer()">Start</button>
+            <button class="timer-btn pause" id="btnTimerPause" onclick="pauseTimer()"
+                style="display:none;">Pause</button>
+            <button class="timer-btn reset" onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+
+    <!-- APP WRAPPER -->
     <div class="app-wrapper">
-        
+
+        <!-- LEFT SIDEBAR TOOLS -->
+        <div class="left-sidebar">
+            <button class="tool-btn" onclick="toggleTimerTray()">⏱️</button>
+        </div>
+
         <div class="tabs-column" id="tabsColumn"></div>
 
         <div class="main-card">
             <div class="rain-clipper">
                 <div id="petal-container"></div>
             </div>
-            
+
             <div class="header-top">
                 <h1>Kendall's Tasks</h1>
                 <button class="note-spawn-btn" id="add-note-btn">📝 Note</button>
             </div>
-            
+
             <span class="list-subtitle" id="currentListName">Daily</span>
 
             <div class="empty-state" id="emptyState">
@@ -321,257 +1290,587 @@
             </div>
         </div>
 
-        <img src="kawaii.gif" alt="mascot" class="mascot-gif">
+        <div class="snack-cue" id="snackCue">❗️</div>
+        <img src="kawaii.gif" alt="mascot" class="mascot-gif" onclick="openFeedingModal()">
     </div>
 
-<script>
-    // --- DATA ---
-    let tabs = [{ id: Date.now(), name: 'Daily', emoji: '🌸', tasks: [] }];
-    let activeTabId = tabs[0].id;
-    
-    // Modal State
-    let isEditMode = false;
-    let selectedEmoji = '🌸';
-    let editingTabId = null;
+    <script>
+        // --- DATA ---
+        let tabs = [{ id: Date.now(), name: 'Daily', emoji: '🌸', tasks: [] }];
+        let activeTabId = tabs[0].id;
 
-    // --- DOM ELEMENTS ---
-    const tabsColumn = document.getElementById('tabsColumn');
-    const taskList = document.getElementById('taskList');
-    const percentDisplay = document.getElementById('percentDisplay');
-    const circle = document.querySelector('.circle-progress');
-    const taskInput = document.getElementById('taskInput');
-    const currentListName = document.getElementById('currentListName');
-    
-    const activeContent = document.getElementById('activeContent');
-    const emptyState = document.getElementById('emptyState');
-    
-    // Modal Elements
-    const modal = document.getElementById('tabModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalInputName = document.getElementById('modalInputName');
-    const btnSave = document.getElementById('btnSave');
-    const btnDelete = document.getElementById('btnDelete');
+        // Snack System Data
+        let inventory = {}; // { '🍩': 5, '🍬': 2 }
+        let friendship = 0;
+        let coins = 0;
+        let placedDecor = []; // { id: 123, emoji: '🪴', x: 50, y: 50 }
 
-    // Chart Setup
-    const radius = 100;
-    const circumference = radius * 2 * Math.PI;
-    circle.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle.style.strokeDashoffset = circumference;
+        const snackTypes = ['🍩', '🍪', '🍬', '🍰', '🍫', '🧁', '🍭', '🍮'];
+        const shopItems = [
+            { name: 'Plant', emoji: '🪴', price: 50 },
+            { name: 'Lamp', emoji: '🛋️', price: 100 },
+            { name: 'Rug', emoji: '🧶', price: 80 },
+            { name: 'Balloon', emoji: '🎈', price: 30 },
+            { name: 'Books', emoji: '📚', price: 60 },
+            { name: 'Teddy', emoji: '🧸', price: 150 },
+            { name: 'Bed', emoji: '🛏️', price: 500 },
+            { name: 'Cat', emoji: '🐈', price: 300 }
+        ];
+        const snackNames = {
+            '🍩': 'Donut', '🍪': 'Cookie', '🍬': 'Candy', '🍰': 'Cake',
+            '🍫': 'Chocolate', '🧁': 'Cupcake', '🍭': 'Lollipop', '🍮': 'Pudding'
+        };
+        const positiveMessages = ["Yummy!", "So sweet!", "Thank you!", "I love this!", "More please!", "Delicious!", "<3", "Nom nom!"];
 
-    // --- RENDER LOGIC ---
-    function renderUI() {
-        tabsColumn.innerHTML = '';
-        
-        // Render Tabs
-        tabs.forEach(tab => {
-            const tabEl = document.createElement('div');
-            tabEl.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
-            tabEl.title = `Click again to edit ${tab.name}`; 
-            
-            // Interaction: Click once to select, Click again (if active) to edit
-            tabEl.onclick = () => { 
-                if (activeTabId === tab.id) {
-                    openModal(true, tab); // Edit Mode
-                } else {
-                    activeTabId = tab.id; 
-                    renderUI();
-                }
-            };
-            
-            tabEl.innerText = tab.emoji;
-            tabsColumn.appendChild(tabEl);
-        });
+        // Modal State
+        let isEditMode = false;
+        let selectedEmoji = '🌸';
+        let editingTabId = null;
 
-        // Add Tab Button
-        const addBtn = document.createElement('div');
-        addBtn.className = 'add-tab-btn';
-        addBtn.innerText = '+';
-        addBtn.onclick = () => openModal(false); // Create Mode
-        tabsColumn.appendChild(addBtn);
+        // --- DOM ELEMENTS ---
+        const tabsColumn = document.getElementById('tabsColumn');
+        const taskList = document.getElementById('taskList');
+        const percentDisplay = document.getElementById('percentDisplay');
+        const circle = document.querySelector('.circle-progress');
+        const taskInput = document.getElementById('taskInput');
+        const currentListName = document.getElementById('currentListName');
 
-        // Content Rendering
-        if (tabs.length === 0) {
-            // Empty State
-            activeContent.style.display = 'none';
-            emptyState.style.display = 'flex';
-            currentListName.innerText = "";
-        } else {
-            // Active State
-            activeContent.style.display = 'flex'; // Changed to flex to support scrolling container
-            emptyState.style.display = 'none';
-            
-            const activeTab = tabs.find(t => t.id === activeTabId);
-            if (activeTab) {
-                currentListName.innerText = activeTab.name; 
-                taskList.innerHTML = '';
+        const activeContent = document.getElementById('activeContent');
+        const emptyState = document.getElementById('emptyState');
 
-                activeTab.tasks.forEach((t, i) => {
-                    const li = document.createElement('li');
-                    if (t.completed) li.classList.add('completed');
-                    li.innerHTML = `
+        // Modal Elements
+        const modal = document.getElementById('tabModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalInputName = document.getElementById('modalInputName');
+        const btnSave = document.getElementById('btnSave');
+        const btnDelete = document.getElementById('btnDelete');
+
+        // Chart Setup
+        const radius = 100;
+        const circumference = radius * 2 * Math.PI;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference;
+
+        // --- RENDER LOGIC ---
+        function renderUI() {
+            tabsColumn.innerHTML = '';
+
+            // Render Tabs
+            tabs.forEach(tab => {
+                const tabEl = document.createElement('div');
+                tabEl.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
+                tabEl.title = `Click again to edit ${tab.name}`;
+
+                // Interaction: Click once to select, Click again (if active) to edit
+                tabEl.onclick = () => {
+                    if (activeTabId === tab.id) {
+                        openModal(true, tab); // Edit Mode
+                    } else {
+                        activeTabId = tab.id;
+                        renderUI();
+                    }
+                };
+
+                tabEl.innerText = tab.emoji;
+                tabsColumn.appendChild(tabEl);
+            });
+
+            // Add Tab Button
+            const addBtn = document.createElement('div');
+            addBtn.className = 'add-tab-btn';
+            addBtn.innerText = '+';
+            addBtn.onclick = () => openModal(false); // Create Mode
+            tabsColumn.appendChild(addBtn);
+
+            // Content Rendering
+            if (tabs.length === 0) {
+                // Empty State
+                activeContent.style.display = 'none';
+                emptyState.style.display = 'flex';
+                currentListName.innerText = "";
+            } else {
+                // Active State
+                activeContent.style.display = 'flex'; // Changed to flex to support scrolling container
+                emptyState.style.display = 'none';
+
+                const activeTab = tabs.find(t => t.id === activeTabId);
+                if (activeTab) {
+                    currentListName.innerText = activeTab.name;
+                    taskList.innerHTML = '';
+
+                    activeTab.tasks.forEach((t, i) => {
+                        const li = document.createElement('li');
+                        if (t.completed) li.classList.add('completed');
+                        li.innerHTML = `
                         <div style="display:flex;align-items:center;gap:10px;">
                             <div class="custom-checkbox" onclick="toggleTask(${i})"></div>
                             <span onclick="toggleTask(${i})" style="cursor:pointer">${t.text}</span>
                         </div>
                         <button style="background:none;border:none;color:#ffb7c5;cursor:pointer;" onclick="deleteTask(${i})">&times;</button>
                     `;
-                    taskList.appendChild(li);
-                });
-                updateChart(activeTab.tasks);
+                        taskList.appendChild(li);
+                    });
+                    updateChart(activeTab.tasks);
+                }
             }
         }
-    }
 
-    function updateChart(tasks) {
-        const total = tasks.length;
-        const comp = tasks.filter(t => t.completed).length;
-        const p = total === 0 ? 0 : Math.round((comp/total)*100);
-        percentDisplay.innerText = `${p}%`;
-        circle.style.strokeDashoffset = circumference - (p/100) * circumference;
-    }
+        function updateChart(tasks) {
+            const total = tasks.length;
+            const comp = tasks.filter(t => t.completed).length;
+            const p = total === 0 ? 0 : Math.round((comp / total) * 100);
+            percentDisplay.innerText = `${p}%`;
+            circle.style.strokeDashoffset = circumference - (p / 100) * circumference;
+        }
 
-    // --- TASK ACTIONS ---
-    function toggleTask(i) {
-        const at = tabs.find(t => t.id === activeTabId);
-        at.tasks[i].completed = !at.tasks[i].completed;
-        if(at.tasks[i].completed) triggerRain();
-        renderUI();
-    }
+        // --- TASK ACTIONS ---
+        function toggleTask(i) {
+            const at = tabs.find(t => t.id === activeTabId);
+            at.tasks[i].completed = !at.tasks[i].completed;
+            if (at.tasks[i].completed && !at.tasks[i].snackAwarded) {
+                triggerRain();
 
-    function deleteTask(i) { 
-        tabs.find(t => t.id === activeTabId).tasks.splice(i, 1); 
-        renderUI(); 
-    }
+                // Randomly Drop Snack (60%) or Coins (40%)
+                if (Math.random() > 0.4) {
+                    dropSnack();
+                } else {
+                    dropCoins();
+                }
 
-    document.getElementById('addTaskBtn').onclick = () => {
-        if(taskInput.value.trim()){
-            tabs.find(t => t.id === activeTabId).tasks.push({text: taskInput.value.trim(), completed: false});
-            taskInput.value = '';
+                at.tasks[i].snackAwarded = true;
+            }
             renderUI();
         }
-    };
-    taskInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') document.getElementById('addTaskBtn').click(); });
 
-    function triggerRain() {
-        const c = document.getElementById('petal-container');
-        for(let i=0; i<15; i++){
-            const p = document.createElement('div');
-            p.className = 'petal'; p.innerText = '🌸';
-            p.style.left = Math.random()*100+'%';
-            p.style.animationDuration = (Math.random()*2+2)+'s';
-            c.appendChild(p);
-            setTimeout(() => p.remove(), 4000);
+        function deleteTask(i) {
+            tabs.find(t => t.id === activeTabId).tasks.splice(i, 1);
+            renderUI();
         }
-    }
 
-    // --- MODAL LOGIC (Create & Edit) ---
-    function openModal(editMode, tabData = null) {
-        isEditMode = editMode;
-        modal.style.display = 'flex';
-        
-        if (editMode && tabData) {
-            // Edit Mode Setup
-            editingTabId = tabData.id;
-            modalTitle.innerText = "Edit List";
-            modalInputName.value = tabData.name;
-            selectedEmoji = tabData.emoji;
-            btnSave.innerText = "Save Changes";
-            btnDelete.style.display = 'block'; // Show Delete
-        } else {
-            // Create Mode Setup
-            editingTabId = null;
-            modalTitle.innerText = "New List";
-            modalInputName.value = "";
-            selectedEmoji = '🌸';
-            btnSave.innerText = "Create List";
-            btnDelete.style.display = 'none'; // Hide Delete
-        }
-        updateEmojiSelection();
-    }
-    
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-
-    // Emoji Selection
-    const emojiOptions = document.querySelectorAll('.emoji-option');
-    emojiOptions.forEach(opt => {
-        opt.onclick = () => {
-            selectedEmoji = opt.innerText;
-            updateEmojiSelection();
+        document.getElementById('addTaskBtn').onclick = () => {
+            if (taskInput.value.trim()) {
+                tabs.find(t => t.id === activeTabId).tasks.push({ text: taskInput.value.trim(), completed: false, snackAwarded: false });
+                taskInput.value = '';
+                renderUI();
+            }
         };
-    });
+        taskInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('addTaskBtn').click(); });
 
-    function updateEmojiSelection() {
-        emojiOptions.forEach(opt => {
-            if (opt.innerText === selectedEmoji) opt.classList.add('selected');
-            else opt.classList.remove('selected');
-        });
-    }
-
-    // Save (Create or Update)
-    function saveTab() {
-        const name = modalInputName.value.trim();
-        if (!name) return alert("Please enter a name!");
-
-        if (isEditMode) {
-            // Update existing
-            const tab = tabs.find(t => t.id === editingTabId);
-            if (tab) {
-                tab.name = name;
-                tab.emoji = selectedEmoji;
+        function triggerRain() {
+            const c = document.getElementById('petal-container');
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'petal'; p.innerText = '🌸';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                c.appendChild(p);
+                setTimeout(() => p.remove(), 4000);
             }
-        } else {
-            // Create new
-            const newTab = { id: Date.now(), name: name, emoji: selectedEmoji, tasks: [] };
-            tabs.push(newTab);
-            activeTabId = newTab.id; // Switch to new tab
         }
-        renderUI();
-        closeModal();
-    }
 
-    // Delete List
-    function deleteActiveList() {
-        if(confirm("Are you sure you want to delete this list?")) {
-            const index = tabs.findIndex(t => t.id === editingTabId);
-            tabs.splice(index, 1);
-            
-            // Set new active ID
-            if (tabs.length > 0) {
-                activeTabId = tabs[0].id;
+        // --- MODAL LOGIC (Create & Edit) ---
+        function openModal(editMode, tabData = null) {
+            isEditMode = editMode;
+            modal.style.display = 'flex';
+
+            if (editMode && tabData) {
+                // Edit Mode Setup
+                editingTabId = tabData.id;
+                modalTitle.innerText = "Edit List";
+                modalInputName.value = tabData.name;
+                selectedEmoji = tabData.emoji;
+                btnSave.innerText = "Save Changes";
+                btnDelete.style.display = 'block'; // Show Delete
             } else {
-                activeTabId = null;
+                // Create Mode Setup
+                editingTabId = null;
+                modalTitle.innerText = "New List";
+                modalInputName.value = "";
+                selectedEmoji = '🌸';
+                btnSave.innerText = "Create List";
+                btnDelete.style.display = 'none'; // Hide Delete
             }
-            
+            updateEmojiSelection();
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Emoji Selection
+        const emojiOptions = document.querySelectorAll('.emoji-option');
+        emojiOptions.forEach(opt => {
+            opt.onclick = () => {
+                selectedEmoji = opt.innerText;
+                updateEmojiSelection();
+            };
+        });
+
+        function updateEmojiSelection() {
+            emojiOptions.forEach(opt => {
+                if (opt.innerText === selectedEmoji) opt.classList.add('selected');
+                else opt.classList.remove('selected');
+            });
+        }
+
+        // Save (Create or Update)
+        function saveTab() {
+            const name = modalInputName.value.trim();
+            if (!name) return alert("Please enter a name!");
+
+            if (isEditMode) {
+                // Update existing
+                const tab = tabs.find(t => t.id === editingTabId);
+                if (tab) {
+                    tab.name = name;
+                    tab.emoji = selectedEmoji;
+                }
+            } else {
+                // Create new
+                const newTab = { id: Date.now(), name: name, emoji: selectedEmoji, tasks: [] };
+                tabs.push(newTab);
+                activeTabId = newTab.id; // Switch to new tab
+            }
             renderUI();
             closeModal();
         }
-    }
 
-    // --- STICKY NOTES ---
-    document.getElementById('add-note-btn').onclick = () => {
-        const n = document.createElement('div');
-        n.className = 'sticky-note';
-        n.style.backgroundColor = ['#fff7d1', '#ffe4e1', '#e0ffff'][Math.floor(Math.random()*3)];
-        
-        const centerX = window.innerWidth / 2 - 80; 
-        const centerY = window.innerHeight / 2 - 80;
-        n.style.left = `${centerX}px`; 
-        n.style.top = `${centerY}px`;
+        // Delete List
+        function deleteActiveList() {
+            if (confirm("Are you sure you want to delete this list?")) {
+                const index = tabs.findIndex(t => t.id === editingTabId);
+                tabs.splice(index, 1);
 
-        n.innerHTML = `<div class="note-header"><span style="cursor:pointer" onclick="this.parentElement.parentElement.remove()">&times;</span></div>
+                // Set new active ID
+                if (tabs.length > 0) {
+                    activeTabId = tabs[0].id;
+                } else {
+                    activeTabId = null;
+                }
+
+                renderUI();
+                closeModal();
+            }
+        }
+
+        // --- STICKY NOTES ---
+        document.getElementById('add-note-btn').onclick = () => {
+            const n = document.createElement('div');
+            n.className = 'sticky-note';
+            n.style.backgroundColor = ['#fff7d1', '#ffe4e1', '#e0ffff'][Math.floor(Math.random() * 3)];
+
+            const centerX = window.innerWidth / 2 - 80;
+            const centerY = window.innerHeight / 2 - 80;
+            n.style.left = `${centerX}px`;
+            n.style.top = `${centerY}px`;
+
+            n.innerHTML = `<div class="note-header"><span style="cursor:pointer" onclick="this.parentElement.parentElement.remove()">&times;</span></div>
                        <textarea class="note-content" placeholder="Write something..."></textarea>`;
-        document.body.appendChild(n);
-        
-        let drag = false, ox, oy;
-        n.querySelector('.note-header').onmousedown = (e) => { drag = true; ox = e.clientX - n.offsetLeft; oy = e.clientY - n.offsetTop; n.style.zIndex = 1000; };
-        document.onmousemove = (e) => { if(drag) { n.style.left = (e.clientX-ox)+'px'; n.style.top = (e.clientY-oy)+'px'; } };
-        document.onmouseup = () => drag = false;
-    };
+            document.body.appendChild(n);
 
-    renderUI();
+            let drag = false, ox, oy;
+            n.querySelector('.note-header').onmousedown = (e) => { drag = true; ox = e.clientX - n.offsetLeft; oy = e.clientY - n.offsetTop; n.style.zIndex = 1000; };
+            document.onmousemove = (e) => { if (drag) { n.style.left = (e.clientX - ox) + 'px'; n.style.top = (e.clientY - oy) + 'px'; } };
+            document.onmouseup = () => drag = false;
+        };
 
-</script>
+        renderUI();
+
+        // --- SNACK SYSTEM LOGIC ---
+        function dropCoins() {
+            const amount = Math.floor(Math.random() * 40) + 10; // 10 to 50 coins
+            coins += amount;
+            showNotification(null, amount); // Passed null for snack, amount for coins
+        }
+
+        function dropSnack() {
+            const snack = snackTypes[Math.floor(Math.random() * snackTypes.length)];
+            if (!inventory[snack]) inventory[snack] = 0;
+            inventory[snack]++;
+            updateSnackCue();
+            showNotification(snack);
+        }
+
+        function closeFeedingModal() {
+            document.getElementById('feedingModal').style.display = 'none';
+        }
+
+        function updateSnackCue() {
+            const total = Object.values(inventory).reduce((a, b) => a + b, 0);
+            const cue = document.getElementById('snackCue');
+            if (cue) cue.style.display = total > 0 ? 'block' : 'none';
+        }
+
+        function openFeedingModal() {
+            document.getElementById('feedingModal').style.display = 'flex';
+            renderFeedingUI();
+            renderDecor();
+        }
+
+        function switchModalTab(tab) {
+            document.getElementById('btnTabSnacks').className = tab === 'snacks' ? 'toggle-btn active' : 'toggle-btn';
+            document.getElementById('btnTabShop').className = tab === 'shop' ? 'toggle-btn active' : 'toggle-btn';
+
+            document.getElementById('viewSnacks').style.display = tab === 'snacks' ? 'block' : 'none';
+            document.getElementById('viewShop').style.display = tab === 'shop' ? 'block' : 'none';
+        }
+
+        function renderFeedingUI() {
+            document.getElementById('friendshipVal').innerText = friendship;
+            document.getElementById('friendshipFill').style.width = friendship + '%';
+            document.getElementById('coinVal').innerText = coins;
+
+            // Render Snacks
+            const invGrid = document.getElementById('snackInventory');
+            invGrid.innerHTML = '';
+            Object.keys(inventory).forEach(item => {
+                if (inventory[item] > 0) {
+                    const el = document.createElement('div');
+                    el.className = 'snack-item';
+                    el.draggable = true;
+                    el.innerText = item;
+                    el.innerHTML += `<span class="snack-count">${inventory[item]}</span>`;
+                    el.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.setData('type', 'snack');
+                        e.dataTransfer.setData('payload', item);
+                    });
+                    invGrid.appendChild(el);
+                }
+            });
+
+            // Render Shop
+            const shopGrid = document.getElementById('shopGrid');
+            shopGrid.innerHTML = '';
+            shopItems.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'shop-item';
+                el.onclick = () => buyDecor(item);
+                el.innerHTML = `
+                    <div style="font-size:1.5rem">${item.emoji}</div>
+                    <div style="font-size:0.8rem">${item.name}</div>
+                    <div class="shop-price">${item.price} 💰</div>
+                `;
+                shopGrid.appendChild(el);
+            });
+        }
+
+        function buyDecor(item) {
+            if (coins >= item.price) {
+                coins -= item.price;
+                placedDecor.push({ id: Date.now(), emoji: item.emoji, x: Math.random() * 80, y: Math.random() * 60 });
+                renderFeedingUI();
+                renderDecor();
+                playSound('ka-ching!'); // Placeholder
+            } else {
+                alert("Not enough coins!");
+            }
+        }
+
+        function renderDecor() {
+            const layer = document.getElementById('decorLayer');
+            layer.innerHTML = '';
+            placedDecor.forEach(d => {
+                const el = document.createElement('div');
+                el.className = 'decor-obj';
+                el.innerText = d.emoji;
+                el.style.left = d.x + '%';
+                el.style.top = d.y + '%';
+
+                // Drag Logic for Decor
+                let isDragging = false;
+                el.onmousedown = (e) => {
+                    isDragging = true;
+                    e.stopPropagation(); // Don't drag modal
+                    el.style.zIndex = 1000;
+                };
+
+                // Global mouse move for dragging elements in the relative container
+                window.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    const rect = document.getElementById('roomArea').getBoundingClientRect();
+                    let x = ((e.clientX - rect.left) / rect.width) * 100;
+                    let y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    // Clamp
+                    x = Math.max(0, Math.min(90, x));
+                    y = Math.max(0, Math.min(80, y)); // Don't go too low (mascot area)
+
+                    d.x = x; d.y = y;
+                    el.style.left = x + '%';
+                    el.style.top = y + '%';
+                });
+
+                window.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        el.style.zIndex = '';
+                    }
+                });
+
+                layer.appendChild(el);
+            });
+        }
+
+
+
+        // Drag & Drop Handling
+        // Drag & Drop Handling for Feeding
+        const roomArea = document.getElementById('roomArea');
+        const mascotTarget = document.getElementById('mascotTarget');
+
+        roomArea.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Allow dropping
+            mascotTarget.style.transform = 'scale(1.2)';
+        });
+
+        roomArea.addEventListener('dragleave', () => {
+            mascotTarget.style.transform = 'scale(1)';
+        });
+
+        roomArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            mascotTarget.style.transform = 'scale(1)';
+            const type = e.dataTransfer.getData('type');
+
+            if (type === 'snack') {
+                const snack = e.dataTransfer.getData('payload');
+                if (snack && inventory[snack] > 0) {
+                    feedMascot(snack);
+                }
+            }
+        });
+
+        function feedMascot(snack) {
+            inventory[snack]--;
+            if (friendship < 100) friendship += 5;
+            if (friendship > 100) friendship = 100;
+
+            // Animation
+            mascotTarget.classList.add('eating');
+            setTimeout(() => mascotTarget.classList.remove('eating'), 300);
+
+            // Message
+            const bubble = document.getElementById('mascotSpeech');
+            bubble.innerText = positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
+            bubble.classList.add('show');
+            setTimeout(() => bubble.classList.remove('show'), 2000);
+
+            renderFeedingUI();
+            updateSnackCue();
+        }
+
+
+
+        function showNotification(snack, coinAmount = 0) {
+            const tray = document.getElementById('notificationTray');
+            const icon = document.getElementById('notifIcon');
+            const text = document.getElementById('notifText');
+
+            if (coinAmount > 0) {
+                icon.innerText = '💰';
+                text.innerText = `You got ${coinAmount} Coins!`;
+            } else {
+                icon.innerText = snack;
+                text.innerText = `You got a ${snackNames[snack]}!`;
+            }
+
+            tray.classList.add('show');
+            setTimeout(() => tray.classList.remove('show'), 3000);
+        }
+
+        // --- TIMER SYSTEM ---
+        let timerInterval = null;
+        let timerTime = 0; // seconds
+        let timerMode = 'stopwatch'; // 'stopwatch' or 'countdown'
+        let isTimerRunning = false;
+
+        function toggleTimerTray() {
+            document.getElementById('timerTray').classList.toggle('open');
+        }
+
+        function switchTimerMode(mode) {
+            timerMode = mode;
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            timerTime = 0;
+
+            updateTimerDisplay(mode === 'countdown' ? getCountdownInput() : 0);
+
+            document.getElementById('btnModeStopwatch').className = mode === 'stopwatch' ? 'mode-btn active' : 'mode-btn';
+            document.getElementById('btnModeCountdown').className = mode === 'countdown' ? 'mode-btn active' : 'mode-btn';
+
+            document.getElementById('timerInputGroup').style.display = mode === 'countdown' ? 'flex' : 'none';
+
+            toggleTimerButtons(false);
+        }
+
+        function getCountdownInput() {
+            const min = parseInt(document.getElementById('inputMin').value) || 0;
+            const sec = parseInt(document.getElementById('inputSec').value) || 0;
+            return min * 60 + sec;
+        }
+
+        function updateTimerDisplay(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+        }
+
+        function startTimer() {
+            if (isTimerRunning) return;
+
+            if (timerMode === 'countdown') {
+                // If starting fresh or paused
+                if (timerTime === 0) timerTime = getCountdownInput();
+                if (timerTime === 0 && timerMode === 'countdown') return alert("Set a time first!");
+            }
+
+            isTimerRunning = true;
+            toggleTimerButtons(true);
+
+            if (timerMode === 'stopwatch') {
+                timerInterval = setInterval(() => {
+                    timerTime++;
+                    updateTimerDisplay(timerTime);
+                }, 1000);
+            } else {
+                updateTimerDisplay(timerTime);
+                timerInterval = setInterval(() => {
+                    if (timerTime > 0) {
+                        timerTime--;
+                        updateTimerDisplay(timerTime);
+                    } else {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        playSound('ka-ching!'); // Reuse existing sound or alert
+                        alert("Time's up!");
+                        toggleTimerButtons(false);
+                        timerTime = 0;
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            toggleTimerButtons(false);
+        }
+
+        function resetTimer() {
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            timerTime = 0;
+            if (timerMode === 'countdown') updateTimerDisplay(getCountdownInput());
+            else updateTimerDisplay(0);
+            toggleTimerButtons(false);
+        }
+
+        function toggleTimerButtons(running) {
+            document.getElementById('btnTimerStart').style.display = running ? 'none' : 'inline-block';
+            document.getElementById('btnTimerPause').style.display = running ? 'inline-block' : 'none';
+        }
+    </script>
 </body>
+
 </html>
